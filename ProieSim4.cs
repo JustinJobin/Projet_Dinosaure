@@ -17,26 +17,25 @@ public class ProieSim4 : MonoBehaviour
 
     // Technique de fuite en zigzag pour la proie
     private const double pi = System.Math.PI;//pi
-    private GameObject pred;//prédateur
+    private GameObject pred;//prÃ©dateur
     private bool modePasFuite = true;//mode fuite ou pas
     private bool premierVirage = false;//premier virage ou pas
     private bool finPremierVirage = false;//fin du premier virage ou pas
-    private float rotation;//banque de rotation (même principe que la simulation 2)
+    private float rotation;//banque de rotation (mÃªme principe que la simulation 2)
     private float currentAngle = 0;//angle courant
     private float angleMax;//angle maximum selon le rayon de rotation
     private bool droitTourner = true;//si la proie a le droit de tourner ou pas
-    private float momentFinVirage = 0;//temps à la fin du virage
+    private float momentFinVirage = 0;//temps Ã  la fin du virage
     private float chrono = 0;//chrono
     private float compteARebours = 15;
     private int nbVirages = 0;
 
 
-    //paramètres
+    //paramÃ¨tres
     private float tempsAttProchVirage = 1f;
     private int nbVirageMax = 5;
     private float disDebutVirage;
     private float distancDebut;
-    //private float rayon = 0.5f;
     private const float rayon = 5f;
     //private const float vitesseNormale = 1f;
     private const float vitesseFuite = 13.9f;
@@ -44,7 +43,7 @@ public class ProieSim4 : MonoBehaviour
 
     void Start()
     {
-        //Même principe que la simulation 2, on randomise les distances et on trouve le prédateur
+        //MÃªme principe que la simulation 2, on randomise les distances et on trouve le prÃ©dateur
         pred = GameObject.Find("Pred");
 
         distancDebut = UnityEngine.Random.Range(15, 43);
@@ -55,7 +54,7 @@ public class ProieSim4 : MonoBehaviour
         Affichage_DistDeb.text = Affichage_DistDeb.text + distancDebut + " m";
         Affichage_DistUturn.text = Affichage_DistUturn.text + disDebutVirage + " m";
 
-        //StreamWriter EcrireDefaite = new StreamWriter("RésultatsSim4.txt", true);
+        //StreamWriter EcrireDefaite = new StreamWriter("RÃ©sultatsSim4.txt", true);
         //EcrireDefaite.Write(Convert.ToString(distancDebut).PadLeft(4) + Convert.ToString(disDebutVirage).PadLeft(4));
         //EcrireDefaite.Flush();
         //EcrireDefaite.Close();
@@ -82,7 +81,7 @@ public class ProieSim4 : MonoBehaviour
 
     void Deplacement()
     {
-        //si c'est la fin du premier virage et que le chrono a dépassé le temps d'attente, on vire de nouveau
+        //si c'est la fin du premier virage et que le chrono a dÃ©passÃ© le temps d'attente, on vire de nouveau
         if(finPremierVirage)
         {
             if (chrono > momentFinVirage + (tempsAttProchVirage/2) && !modePasFuite)
@@ -93,14 +92,14 @@ public class ProieSim4 : MonoBehaviour
         }
         else
         {
-            //même principe si ce n'est pas le premier virage
+            //mÃªme principe si ce n'est pas le premier virage
             if (chrono > momentFinVirage + tempsAttProchVirage && !modePasFuite)
             {
                 droitTourner = true;
             }
         }
         
-        //si la distance entre entre les deux est inférieur à disDébutVirage, on commence les virages et on met la proie en mode Fuite
+        //si la distance entre entre les deux est infÃ©rieur Ã  disDÃ©butVirage, on commence les virages et on met la proie en mode Fuite
         if (Vector3.Distance(transform.position, pred.transform.position) < disDebutVirage && modePasFuite)
         {
             modePasFuite = false;
@@ -108,7 +107,7 @@ public class ProieSim4 : MonoBehaviour
             currentAngle = angleMax;
         }
 
-        //Rotation et déplacement de la proie
+        //Rotation et dÃ©placement de la proie
         if (currentAngle == 0)
         {
             transform.Translate(new Vector3(0, 0, 1) * 0.008f * vitesseFuite);
@@ -128,13 +127,13 @@ public class ProieSim4 : MonoBehaviour
         }
 
         //Condition pour les virages
-        //Si le nombres de virages est au maximum de nombre de virages maximum, on arrête de virer
+        //Si le nombres de virages est au maximum de nombre de virages maximum, on arrÃªte de virer
         if (nbVirages < nbVirageMax)
         {
             //banque de rotation pour le premier virage.
-            //En effet, le premier virage est différent
+            //En effet, le premier virage est diffÃ©rent
             //des autres virages car la proie tourne
-            //seulement de 45 degrés et non de 90 degrés.
+            //seulement de 45 degrÃ©s et non de 90 degrÃ©s.
             if (rotation > 45 && premierVirage)
             {
                 currentAngle = -angleMax;
@@ -146,8 +145,8 @@ public class ProieSim4 : MonoBehaviour
                 nbVirages++;
             }
 
-            //pour les autres virages, même principe que pour la simulation 2,
-            //sauf qu'on enregistre le moment où il y a fin du virage et on compile le nombre de virages
+            //pour les autres virages, mÃªme principe que pour la simulation 2,
+            //sauf qu'on enregistre le moment oÃ¹ il y a fin du virage et on compile le nombre de virages
             if (rotation > 90)
             {
                 currentAngle = -angleMax;
@@ -177,9 +176,9 @@ public class ProieSim4 : MonoBehaviour
     {
         if (other.tag == "pred" && proieTouchable)
         {
-            message_Alerte.text = "Prédateur win";
+            message_Alerte.text = "PrÃ©dateur win";
             predGagne = true;
-            //StreamWriter EcrireVictoire = new StreamWriter("RésultatsSim4.txt", true);
+            //StreamWriter EcrireVictoire = new StreamWriter("RÃ©sultatsSim4.txt", true);
             //EcrireVictoire.WriteLine(" Preda " +
             //    Convert.ToString(15 - chrono).PadLeft(4) + "0".PadLeft(4));
             //EcrireVictoire.Flush();
